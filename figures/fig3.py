@@ -3,7 +3,7 @@ from style import *
 import numpy as np
 from common import grid15
 M = [('graphcast', 'GraphCast', AI), ('pangu', 'Pangu-Weather', AI), ('fuxi', 'FuXi', AI), ('gencastmean', 'GenCast mean', ENS),
-     ('era5fc', 'IFS from ERA5', PHYS2), ('ensmean', 'IFS ENS mean', PHYS2), ('hres', 'HRES', PHYS)]
+     ('era5fc', 'IFS from ERA5', PHYS2), ('ensmean', 'IFS ensemble mean', PHYS2), ('hres', 'HRES', PHYS)]
 L = 12
 st = np.load(f'{grid15.ROOT}/data/metar/events_2020_max.npz') if hasattr(grid15, 'ROOT') else None
 st = np.load(f'{ROOT}/data/metar/events_2020_max.npz')
@@ -14,7 +14,7 @@ for m, lab, _ in M:
         e = d['f'][li] - d['y']; ok = np.isfinite(e) & np.isfinite(d['bhat'][li]) & (d['n'][li] > 50); vals[(m, tr)] = e[ok].mean()
     vals[(m, 'st')] = st[f'{m}_15_{L}'][0].mean()
 fig = plt.figure(figsize=(W2, 66 * MM))
-G = fig.add_gridspec(1, 3, width_ratios=[2.0, 0.95, 1.0], wspace=0.42, left=0.115, right=0.985, top=0.84, bottom=0.2)
+G = fig.add_gridspec(1, 3, width_ratios=[2.0, 0.95, 1.0], wspace=0.42, left=0.15, right=0.985, top=0.84, bottom=0.2)
 ga = G[0].subgridspec(1, 3, wspace=0.18)
 gs = [ga[0], ga[1], ga[2], G[1], G[2]]
 TRS = [('era5', 'ERA5 reanalysis'), ('hres_t0', 'HRES analysis'), ('st', 'Weather stations')]
@@ -34,7 +34,9 @@ for j, (tr, tl) in enumerate(TRS):
     best = max(M, key=lambda x: vals[(x[0], tr)]); ib = M.index(best)
     ax.text(vals[(best[0], tr)], ib - 0.42, 'best', ha='center', fontsize=5, color=INK2, style='italic')
 axa[1].set_xlabel('Mean error on 2020 heat records, 12 h ahead (K)')
-label(axa[0], 'a', x=-0.95, y=1.08)
+label(axa[0], 'a', x=-1.45, y=1.08)
+group_bracket(axa[0], 0, 3, 'AI', AI, x=-1.12)
+group_bracket(axa[0], 4, 6, 'Physics-based', PHYS, x=-1.12)
 # b decomposition of the headline gap (0.25 deg, 12 h)
 ax = fig.add_subplot(gs[3]); grid(ax, 'y')
 W_ = 0.5
@@ -62,6 +64,6 @@ ax.plot(range(5), g12, color=PHYS, marker='o', ms=3.5, mec='white', mew=0.5, lab
 ax.plot(range(5), g120, color=PHYS, marker='o', ms=3.5, mec='white', mew=0.5, ls=(0, (3, 1.5)), alpha=.6, label='120 h')
 ax.set_xticks(range(5)); ax.set_xticklabels(cats); ax.set_ylim(0, 0.07)
 ax.set_xlabel('Stations within 300 km'); ax.set_ylabel('Correlation gain of HRES when\nverified on its own analysis')
-ax.legend(loc='upper right'); ax.set_title('Largest where stations are few', fontsize=7); label(ax, 'c', x=-0.4, y=1.08)
+ax.legend(loc='upper right'); ax.set_title('Largest with few stations', fontsize=7); label(ax, 'c', x=-0.4, y=1.08)
 save(fig, 'fig3')
 for m, *_ in M: print(m, [round(float(vals[(m, t)]), 2) for t in ('era5', 'hres_t0', 'st')])

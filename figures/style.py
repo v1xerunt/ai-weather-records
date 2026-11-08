@@ -47,3 +47,12 @@ def endlabel(ax, x, y, s, color, dx=4, dy=0, **kw):
 def soft(ax):
     ax.tick_params(colors=INK2)
     for sp in ('left', 'bottom'): ax.spines[sp].set_color('#9a9a9a')
+
+
+def group_bracket(ax, y0, y1, text, color, x=-0.42, transform_rows=True):
+    """Vertical bracket left of the y tick labels spanning rows y0..y1 (data coords), with a rotated group label."""
+    from matplotlib.transforms import blended_transform_factory
+    tr = blended_transform_factory(ax.transAxes, ax.transData)
+    ax.plot([x, x], [y0 - 0.35, y1 + 0.35], color=color, lw=1.0, transform=tr, clip_on=False, solid_capstyle='butt')
+    ax.text(x - 0.03, (y0 + y1) / 2, text, rotation=90, ha='right', va='center', fontsize=6, color=color,
+            fontweight='bold', transform=tr, clip_on=False)

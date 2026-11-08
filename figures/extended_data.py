@@ -8,7 +8,7 @@ fig, axs = plt.subplots(1, 3, figsize=(W2, 55 * MM), sharey=False)
 edges = [0, 0.5, 1, 2, 3, 6]; xc = np.arange(5)
 for ax, L in zip(axs, (12, 48, 120)):
     grid(ax, 'y')
-    for k, (m, col, lab) in enumerate([('graphcast', AI, 'GraphCast'), ('pangu', PANGU, 'Pangu-Weather'), ('hres', PHYS, 'HRES')]):
+    for k, (m, col, lab) in enumerate([('graphcast', AI, 'GraphCast (AI)'), ('pangu', PANGU, 'Pangu-Weather (AI)'), ('hres', PHYS, 'HRES (physics)')]):
         d = np.load(f'{grid025.D}/out/2020_t2m_max_era5_{m}.npz'); li = list(d['leads']).index(L)
         e = d['f'][li] - d['y']; bh = d['bhat'][li]; ex = d['y'] - d['r']; ok = np.isfinite(e) & np.isfinite(bh)
         mo = [e[ok & (ex >= a) & (ex < b)].mean() for a, b in zip(edges[:-1], edges[1:])]
@@ -18,7 +18,7 @@ for ax, L in zip(axs, (12, 48, 120)):
     ax.set_xticks(xc); ax.set_xticklabels(['0–0.5', '0.5–1', '1–2', '2–3', '>3'])
     ax.set_title(f'Lead {L} h', fontsize=7); ax.set_xlabel('Amount by which the record is broken (K)')
 axs[0].set_ylabel('Mean error on 2020 heat records (K)')
-h = [Line2D([], [], color=c, marker='o', ms=3, lw=0, label=l) for c, l in [(AI, 'GraphCast'), (PANGU, 'Pangu-Weather'), (PHYS, 'HRES')]] + [Line2D([], [], color=INK2, lw=1, label='expected')]
+h = [Line2D([], [], color=c, marker='o', ms=3, lw=0, label=l) for c, l in [(AI, 'GraphCast (AI)'), (PANGU, 'Pangu-Weather (AI)'), (PHYS, 'HRES (physics)')]] + [Line2D([], [], color=INK2, lw=1, label='expected')]
 axs[0].legend(handles=h, loc='lower left'); fig.tight_layout(); save(fig, 'ed_exceedance')
 
 # ED2 input-conditioned at three leads
@@ -34,7 +34,7 @@ def curve(name, L, ri, si, w=0.25, lo=-2.5, hi=1.5):
 fig, axs = plt.subplots(1, 3, figsize=(W2, 55 * MM))
 for ax, L in zip(axs, (12, 48, 120)):
     grid(ax); ax.axvspan(0, 1.5, color='#f3f3f3', lw=0)
-    for m, lb, col in [('graphcast', 'GraphCast', AI), ('pangu', 'Pangu-Weather', PANGU), ('hres', 'HRES', PHYS)]:
+    for m, lb, col in [('graphcast', 'GraphCast (AI)', AI), ('pangu', 'Pangu-Weather (AI)', PANGU), ('hres', 'HRES (physics)', PHYS)]:
         x, y, se = curve(m, L, 0, 0)
         ax.fill_between(x, -(y + se), -(y - se), color=col, alpha=.18, lw=0); ax.plot(x, -y, color=col, lw=1.2, label=lb)
     ax.axvline(0, color=INK2, lw=0.6); ax.axhline(0, color=INK2, lw=0.5); ax.set_xlim(-2.5, 1.45)
@@ -46,7 +46,7 @@ fig, axs = plt.subplots(1, 2, figsize=(W2 * 0.75, 55 * MM), gridspec_kw=dict(wsp
 fig.subplots_adjust(left=0.12, right=0.98, bottom=0.2, top=0.86)
 ax = axs[0]; grid(ax, 'y')
 H = [('', '1979–2017'), ('_h1999', '1999–2017'), ('_h2009', '2009–2017')]
-for k, (m, col, lab) in enumerate([('graphcast', AI, 'GraphCast'), ('pangu', PANGU, 'Pangu-Weather'), ('hres', PHYS, 'HRES')]):
+for k, (m, col, lab) in enumerate([('graphcast', AI, 'GraphCast (AI)'), ('pangu', PANGU, 'Pangu-Weather (AI)'), ('hres', PHYS, 'HRES (physics)')]):
     mo, mb = [], []
     for suf, _ in H:
         d = np.load(f'{grid15.D}/events/2020_t2m_max_era5_{m}{suf}.npz'); li = list(d['leads']).index(24)
@@ -59,7 +59,7 @@ ax.set_xticks(range(3)); ax.set_xticklabels([h[1] for h in H]); ax.set_xlabel('P
 ax.set_ylabel('Mean error on 2020 heat records, 24 h (K)'); ax.legend(loc='center left', fontsize=5.5)
 ax.set_title('Shorter history, smaller shortfall', fontsize=7); label(ax, 'a', x=-0.25)
 ax = axs[1]; grid(ax, 'y')
-for k, (base, col, lab) in enumerate([('gencast', ENS, 'GenCast'), ('ens', PHYS2, 'IFS ENS')]):
+for k, (base, col, lab) in enumerate([('gencast', ENS, 'GenCast (AI)'), ('ens', PHYS2, 'IFS ensemble (physics)')]):
     dm = np.load(f'{grid15.D}/events/2020_t2m_max_era5_{base}mean.npz'); L = dm['leads']
     def curve_(d):
         v = []

@@ -3,12 +3,12 @@ from style import *
 import numpy as np
 VIO = '#7b5ea7'
 fig = plt.figure(figsize=(W2, 112 * MM))
-G = fig.add_gridspec(2, 2, hspace=0.62, wspace=0.32, left=0.1, right=0.985, top=0.94, bottom=0.11, width_ratios=[1.25, 1])
+G = fig.add_gridspec(2, 2, hspace=0.62, wspace=0.32, left=0.13, right=0.985, top=0.94, bottom=0.11, width_ratios=[1.25, 1])
 
 # a decomposition (0.25 deg, 2020 heat, ERA5)
 ax = fig.add_subplot(G[0, 0]); grid(ax, 'x')
-rows = [('GraphCast, 12 h', -0.11, -0.34, -0.30), ('HRES, 12 h', -0.26, -0.92, -0.22),
-        ('GraphCast, 5 d', -0.41, -1.50, -0.49), ('HRES, 5 d', -0.32, -2.29, -0.26)]
+rows = [('GraphCast (AI), 12 h', -0.11, -0.34, -0.30), ('HRES (physics), 12 h', -0.26, -0.92, -0.22),
+        ('GraphCast (AI), 5 d', -0.41, -1.50, -0.49), ('HRES (physics), 5 d', -0.32, -2.29, -0.26)]
 obs = [-0.74, -1.48, -2.51, -2.70]
 cols = [('mean offset', '#d2d2d2'), ('limited predictability  $-(1-\\rho)\\Delta$', '#8c8c8c'), ('damped amplitude  $-\\rho(1-a)\\Delta$', VIO)]
 ypos = [0, 1, 2.5, 3.5]
@@ -31,7 +31,7 @@ ax.set_title('Where the shortfall comes from', fontsize=7); label(ax, 'a', x=-0.
 ax = fig.add_subplot(G[0, 1]); grid(ax, 'y')
 L = ['12 h', '2 d', '5 d']; gc = [0.58, 0.45, 0.22]; hr = [0.38, 0.35, 0.22]
 x = np.arange(3)
-ax.bar(x - 0.17, gc, 0.32, color=AI, label='GraphCast'); ax.bar(x + 0.17, hr, 0.32, color=PHYS, label='HRES')
+ax.bar(x - 0.17, gc, 0.32, color=AI, label='GraphCast (AI)'); ax.bar(x + 0.17, hr, 0.32, color=PHYS, label='HRES (physics)')
 for xi, a_, b_ in zip(x, gc, hr):
     ax.text(xi - 0.17, a_ + 0.01, f'{a_:.2f}', ha='center', fontsize=5.5); ax.text(xi + 0.17, b_ + 0.01, f'{b_:.2f}', ha='center', fontsize=5.5)
 ax.set_xticks(x); ax.set_xticklabels(L); ax.tick_params(axis='x', length=0); ax.set_ylim(0, 0.68)
@@ -41,8 +41,8 @@ ax.legend(loc='upper right'); ax.set_title('AI ranks records at least as well', 
 # c identical monotone recalibration, 5 d
 ax = fig.add_subplot(G[1, 0]); grid(ax, 'y')
 bins = ['<0.5', '0.5–1', '1–2', '2–3', '>3']
-series = [('GenCast mean', [-2.05, -2.65, -3.20, -3.74, -4.74], ENS), ('GraphCast', [-2.11, -2.73, -3.26, -3.80, -5.42], AI),
-          ('HRES', [-2.79, -3.41, -3.86, -4.14, -4.74], PHYS)]
+series = [('GenCast mean (AI)', [-2.05, -2.65, -3.20, -3.74, -4.74], ENS), ('GraphCast (AI)', [-2.11, -2.73, -3.26, -3.80, -5.42], AI),
+          ('HRES (physics)', [-2.79, -3.41, -3.86, -4.14, -4.74], PHYS)]
 for k, (lab, v, c) in enumerate(series):
     ax.plot(np.arange(5) + (k - 1) * 0.08, v, color=c, marker='o', ms=3.5, mec='white', mew=0.5, label=lab)
 ax.set_xticks(range(5)); ax.set_xticklabels(bins); ax.set_xlabel('Amount by which the record is broken (K)')
@@ -53,8 +53,8 @@ ax.legend(loc='lower left'); ax.set_title('After identical recalibration, AI mat
 
 # d wind: averaging vectors
 ax = fig.add_subplot(G[1, 1]); grid(ax, 'x')
-W = [('GenCast, mean of\nmember speeds', -0.06, -0.07, ENS), ('GenCast, speed of\nmean wind vector', -0.35, -0.54, ENS),
-     ('GraphCast', -0.20, -0.18, AI), ('Pangu-Weather', -0.23, -0.13, AI), ('FuXi', -0.18, -0.12, AI), ('HRES', 0.14, 0.16, PHYS)]
+W = [('GenCast (AI), mean of\nmember speeds', -0.06, -0.07, ENS), ('GenCast (AI), speed of\nmean wind vector', -0.35, -0.54, ENS),
+     ('GraphCast (AI)', -0.20, -0.18, AI), ('Pangu-Weather (AI)', -0.23, -0.13, AI), ('FuXi (AI)', -0.18, -0.12, AI), ('HRES (physics)', 0.14, 0.16, PHYS)]
 for i, (lab, v24, v120, c) in enumerate(W):
     ax.plot([v24, v120], [i, i], color=c, lw=0.8, alpha=.5)
     ax.plot(v24, i, 'o', ms=4, color=c, mec='white', mew=0.5); ax.plot(v120, i, 'D', ms=3.4, color='white', mec=c, mew=0.9)

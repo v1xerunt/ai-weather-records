@@ -44,7 +44,7 @@ for k, (m, col, lab) in enumerate([('graphcast', AI, 'GraphCast'), ('hres', PHYS
 ax.set_xticks(xc); ax.set_xticklabels(['0–0.5', '0.5–1', '1–2', '2–3', '>3'])
 ax.set_xlabel('Amount by which the record is broken (K)'); ax.set_ylabel('Mean forecast error on records (K)')
 ax.axhline(0, color=INK2, lw=0.5)
-h = [Line2D([], [], color=AI, marker='o', ms=3, lw=0, label='GraphCast'), Line2D([], [], color=PHYS, marker='o', ms=3, lw=0, label='HRES'),
+h = [Line2D([], [], color=AI, marker='o', ms=3, lw=0, label='GraphCast (AI)'), Line2D([], [], color=PHYS, marker='o', ms=3, lw=0, label='HRES (physics)'),
      Line2D([], [], color=INK2, lw=1, label='expected from ordinary days')]
 ax.legend(handles=h, loc='lower left', handlelength=1.5)
 ax.set_title('The apparent cap, 2 days ahead', fontsize=7); label(ax, 'b')
@@ -85,7 +85,7 @@ Lp = np.array([12, 48, 72, 120, 168, 240])
 pg = np.array([-0.42, -0.78, -1.00, -1.75, -3.03, -5.09]); pi = np.array([-0.69, -1.09, -1.35, -2.26, -3.20, -4.99])
 ax.fill_between(Lp / 24, np.minimum(pg, pi), np.maximum(pg, pi), color='#e2e2e2', lw=0, label='perfect forecast (two model worlds)')
 ax.plot(Lp / 24, pg, color=PERF, lw=0.7); ax.plot(Lp / 24, pi, color=PERF, lw=0.7, ls=(0, (2, 1.5)))
-for m, col, lab in [('graphcast', AI, 'GraphCast'), ('gencastmean', ENS, 'GenCast ensemble mean'), ('hres', PHYS, 'HRES')]:
+for m, col, lab in [('graphcast', AI, 'GraphCast (AI)'), ('gencastmean', ENS, 'GenCast mean (AI)'), ('hres', PHYS, 'HRES (physics)')]:
     d = np.load(f'{grid15.D}/events/2020_t2m_max_era5_{m}.npz'); L = d['leads']; v = []
     for li in range(len(L)):
         e = d['f'][li] - d['y']; ok = np.isfinite(e) & np.isfinite(d['bhat'][li]) & (d['n'][li] > 50); v.append(e[ok].mean())
@@ -98,8 +98,8 @@ ax.set_title('Most of the shortfall would remain for a perfect forecast', fontsi
 
 # e  ratio to limit
 ax = fig.add_subplot(gs[1, 2])
-rat = {'GraphCast': ([1.27, 1.31, 1.28, 1.22, 1.15, 1.22], AI), 'GenCast mean': ([1.14, 1.13, 1.12, 1.23, 1.25, 1.17], ENS),
-       'HRES': ([3.06, 1.82, 1.60, 1.36, 1.34, 1.21], PHYS)}
+rat = {'GraphCast (AI)': ([1.27, 1.31, 1.28, 1.22, 1.15, 1.22], AI), 'GenCast mean (AI)': ([1.14, 1.13, 1.12, 1.23, 1.25, 1.17], ENS),
+       'HRES (physics)': ([3.06, 1.82, 1.60, 1.36, 1.34, 1.21], PHYS)}
 for lab, (v, col) in rat.items():
     ax.plot(Lp / 24, v, color=col, lw=1.2, marker='o', ms=2.5, mec='white', mew=0.3, label=lab)
 ax.axhline(1, color=PERF, lw=0.8); ax.text(9.9, 0.93, 'perfect forecast', ha='right', va='top', fontsize=5.5, color=PERF)

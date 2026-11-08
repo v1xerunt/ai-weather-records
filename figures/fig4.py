@@ -31,7 +31,7 @@ def curve(name, L, ri, si, w=0.25, lo=-2.5, hi=1.5):
         m = o[k, 1].sum() / N; v = o[k, 2].sum() / N - m * m
         xs.append(o[k, 3].sum() / N); ms.append(m); ses.append(np.sqrt(v / N) * 3)
     return np.array(xs), np.array(ms), np.array(ses)
-LAB = {'graphcast': ('GraphCast (trained to 2019)', AI), 'pangu': ('Pangu-Weather (trained to 2017)', PANGU), 'hres': ('HRES', PHYS)}
+LAB = {'graphcast': ('GraphCast (AI, trained to 2019)', AI), 'pangu': ('Pangu-Weather (AI, trained to 2017)', PANGU), 'hres': ('HRES (physics)', PHYS)}
 for k, (L, si, ttl, lab) in enumerate([(12, 0, 'Inputs beyond the record, all land, 12 h', 'b'),
                                         (12, 2, 'Cells with new 2018–19 records, 12 h', 'c')]):
     ax = fig.add_subplot(G[0, 1 + k]); grid(ax)
@@ -67,7 +67,7 @@ ax.set_title('Same network, two more years of training data', fontsize=7); label
 # e Pacific Northwest 2021, Pangu (trained to 2017)
 ax = fig.add_subplot(G[1, 2]); grid(ax)
 vt = None
-for m, col, lb in [('hres', PHYS, 'HRES'), ('pangu', PANGU, 'Pangu-Weather')]:
+for m, col, lb in [('hres', PHYS, 'HRES (physics)'), ('pangu', PANGU, 'Pangu-Weather (AI)')]:
     e = np.load(f'{grid15.D}/events/2021_t2m_max_era5_{m}.npz')
     t = e['vt'][e['t']].astype('datetime64[h]'); lat = grid15.LAT[e['j']]; lon = grid15.LON[e['i']]
     k = (lat >= 44) & (lat <= 56) & (lon >= 234) & (lon <= 244) & (t >= np.datetime64('2021-06-26T00')) & (t <= np.datetime64('2021-07-02T12'))

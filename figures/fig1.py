@@ -14,28 +14,52 @@ def box(ax, x, y, w, h, title, body, fc, ec, tc=INK):
     ax.text(x + 0.02, y + h - 0.105, body, fontsize=5.4, color=INK2, va='top', linespacing=1.35)
 
 def arrow(ax, x0, y0, x1, y1):
-    ax.annotate('', xy=(x1, y1), xytext=(x0, y0), arrowprops=dict(arrowstyle='-|>', color='#8a8a8a', lw=0.7, mutation_scale=6))
+    ax.annotate('', xy=(x1, y1), xytext=(x0, y0), arrowprops=dict(arrowstyle='-|>', color='#9a9a9a', lw=0.7, mutation_scale=6, shrinkA=0, shrinkB=0))
 
 # a design
 ax = fig.add_subplot(G[0, 0]); ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis('off'); label(ax, 'a', x=0.0, y=1.0)
-box(ax, 0.0, 0.66, 0.3, 0.28, 'Forecasts', '7 AI and physics-based\nsystems and ensemble\nmembers, 12 h to 10 days', '#f6f6f6', '#cfcfcf')
-box(ax, 0.0, 0.35, 0.3, 0.27, 'Record events', 'heat, cold and wind\nbeyond 1979–2017\nlocal records', '#f6f6f6', '#cfcfcf')
-box(ax, 0.0, 0.04, 0.3, 0.27, 'Three truths', 'ERA5 reanalysis\nHRES analysis\n2,787 weather stations', '#f6f6f6', '#cfcfcf')
-ax.add_patch(FancyBboxPatch((0.385, 0.40), 0.19, 0.20, boxstyle='round,pad=0,rounding_size=0.04', fc='#e6e6e6', ec='none'))
-ax.text(0.48, 0.5, 'Mean error\non records', ha='center', va='center', fontsize=6.5, fontweight='bold', color=INK)
-for yy in (0.8, 0.485, 0.175): arrow(ax, 0.305, yy, 0.38, 0.5 + (yy - 0.5) * 0.15)
+ax.add_patch(FancyBboxPatch((0.0, 0.50), 0.33, 0.47, boxstyle='round,pad=0,rounding_size=0.015', fc='#f6f6f6', ec='#cfcfcf', lw=0.6))
+ax.text(0.02, 0.94, 'Forecasts', fontsize=6.5, fontweight='bold', va='top')
+ax.text(0.02, 0.865, 'AI models', fontsize=5.8, fontweight='bold', color=AI, va='top')
+ax.text(0.02, 0.815, 'GraphCast, Pangu-Weather,\nFuXi, GenCast ensemble', fontsize=5.4, color=INK2, va='top', linespacing=1.3)
+ax.text(0.02, 0.705, 'Physics-based', fontsize=5.8, fontweight='bold', color=PHYS, va='top')
+ax.text(0.02, 0.655, 'HRES, IFS ensemble,\nIFS started from ERA5', fontsize=5.4, color=INK2, va='top', linespacing=1.3)
+box(ax, 0.0, 0.25, 0.33, 0.225, 'Record events', 'heat, cold and wind beyond\n1979–2017 local records', '#f6f6f6', '#cfcfcf')
+box(ax, 0.0, 0.0, 0.33, 0.225, 'Three truths', 'ERA5, HRES analysis,\n2,787 weather stations', '#f6f6f6', '#cfcfcf')
+# distribution icon: climatology with the record tail shaded
+cx, cy = 0.475, 0.50
+xs = np.linspace(-3, 3, 200); ys = np.exp(-xs ** 2 / 2)
+X = cx + xs * 0.022; Y = cy - 0.06 + ys * 0.17
+ax.fill_between(X, cy - 0.06, Y, color='#e3e3e3', lw=0, zorder=3)
+t = xs >= 1.4
+ax.fill_between(X[t], cy - 0.06, Y[t], color=PHYS, lw=0, zorder=4)
+ax.plot(X, Y, color=INK2, lw=0.8, zorder=5)
+ax.plot([cx - 0.075, cx + 0.075], [cy - 0.06, cy - 0.06], color=INK2, lw=0.7, zorder=5)
+xr = cx + 1.4 * 0.022
+ax.plot([xr, xr], [cy - 0.06, cy + 0.13], color=INK, lw=0.7, ls=(0, (2, 1.2)), zorder=6)
+ax.text(xr, cy + 0.14, 'record', fontsize=5, color=INK2, va='bottom', ha='center')
+ax.text(cx, cy - 0.085, 'Mean error\non records', ha='center', va='top', fontsize=6.2, fontweight='bold', color=INK)
 src = [(0.71, 'Predictability', 'expected shortfall\nperfect forecasts', C_PRED),
        (0.475, 'Verification', 'swapping the truth\nweather stations', C_VER),
        (0.24, 'Training ceiling?', 'inputs beyond records\nlater training cutoff', C_CEIL),
        (0.005, 'Model itself', 'amplitude vs information\nwind vectors', C_MOD)]
 for yy, t, b, c in src:
     box(ax, 0.66, yy, 0.34, 0.215, t, b, TINT[c], c, tc=c if c != C_PRED else INK)
-    arrow(ax, 0.58, 0.5 + (yy + 0.107 - 0.5) * 0.15, 0.655, yy + 0.107)
+# orthogonal connectors
+LC = '#9a9a9a'; ym = cy + 0.02
+lys = (0.735, 0.3625, 0.1125)
+for yy in lys: ax.plot([0.33, 0.36], [yy, yy], color=LC, lw=0.7, solid_capstyle='butt')
+ax.plot([0.36, 0.36], [min(lys), max(lys)], color=LC, lw=0.7)
+arrow(ax, 0.36, ym, 0.392, ym)
+rys = [yy + 0.107 for yy, *_ in src]
+ax.plot([0.558, 0.605], [ym, ym], color=LC, lw=0.7)
+ax.plot([0.605, 0.605], [min(rys), max(rys)], color=LC, lw=0.7)
+for yy in rys: arrow(ax, 0.605, yy, 0.655, yy)
 ax.set_title('Separating the sources of error on records', fontsize=7, x=0.05)
 
 # b error budget
 ax = fig.add_subplot(G[0, 1]); label(ax, 'b', x=-0.3, y=1.0)
-rows = [('GraphCast', -0.53, -2.14, AI), ('GenCast mean', -0.48, -2.15, ENS), ('HRES', -1.29, -2.38, PHYS),
+rows = [('GraphCast (AI)', -0.53, -2.14, AI), ('GenCast mean (AI)', -0.48, -2.15, ENS), ('HRES (physics)', -1.29, -2.38, PHYS),
         ('HRES, own analysis', -0.12, -1.67, PHYS)]
 lim = {12: -0.42, 120: -1.75}
 for j, (L, k, off) in enumerate([(12, 1, 0), (120, 2, 5.4)]):
