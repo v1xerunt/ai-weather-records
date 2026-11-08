@@ -57,20 +57,20 @@ bash scripts/build_events.sh
 | Perfect-model forecasts, Fig. 2d,e | `src/analysis/perfect_model.py` |
 | Offset and regression terms of the expected error | `src/analysis/offset_regression_split.py` |
 | Gain from verifying on the model's own analysis, Fig. 3c | `src/analysis/own_analysis_gain_vs_station_density.py` |
-| Weather-station records, Fig. 3a, Extended Data Table 1 | `src/events/station_records.py`, `src/analysis/station_stratify.py` |
+| Weather-station records, Fig. 3a, Extended Data Table 2 | `src/events/station_records.py`, `src/analysis/station_stratify.py` |
 | Input-conditioned errors, Fig. 4b,c, Extended Data Fig. 2 | `src/analysis/input_conditioned_error.py`, `src/analysis/input_conditioned_error_multiyear.py` |
-| Same network with an earlier training cutoff, Fig. 4d, Extended Data Table 6 | `src/graphcast/run_graphcast_2017.py`, `src/analysis/cutoff_same_network_records.py`, `src/analysis/cutoff_same_network_all_days.py` |
+| Same network with an earlier training cutoff, Fig. 4d, Extended Data Table 7 | `src/graphcast/run_graphcast_2017.py`, `src/analysis/cutoff_same_network_records.py`, `src/analysis/cutoff_same_network_all_days.py` |
 | Cutoff comparison across architectures | `src/analysis/cutoff_cross_architecture.py` |
 | Case studies (Pacific Northwest 2021, United Kingdom 2022) | `src/analysis/case_studies.py` |
-| Temperature steps towards records, Extended Data Table 4 | `src/analysis/steps_to_records.py` |
+| Temperature steps towards records, Extended Data Table 5 | `src/analysis/steps_to_records.py` |
 | Extreme wind increments | `src/analysis/increment_climatology.py`, `src/analysis/increment_tail_calibration.py` |
 | Offset, predictability and amplitude components, Fig. 5a | `src/analysis/shortfall_components_025deg.py`, `src/analysis/shortfall_components_15deg.py` |
 | Rank correlation among records, Fig. 5b | `src/analysis/rank_within_records.py` |
 | Identical monotonic recalibration, Fig. 5c | `src/analysis/monotone_recalibration.py` |
 | Local linear recalibration | `src/analysis/linear_recalibration.py` |
 | Speed of the averaged wind vector, Fig. 5d | `src/download/gencast_mean_vector_speed.py` |
-| Detection of the deepest records, Extended Data Table 5 | `src/analysis/deep_tail_detection.py` |
-| Window sensitivity, Extended Data Table 3 | `src/events/record_events_15deg.py` with `GW`, `GEX`, `TAG` (see `scripts/build_events.sh`) |
+| Detection of the deepest records, Extended Data Table 6 | `src/analysis/deep_tail_detection.py` |
+| Window sensitivity, Extended Data Table 4 | `src/events/record_events_15deg.py` with `GW`, `GEX`, `TAG` (see `scripts/build_events.sh`) |
 
 Each script documents its arguments in its header, for example
 
