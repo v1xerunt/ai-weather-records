@@ -1,0 +1,15 @@
+name: ai-weather-records
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy=2.3
+  - scipy=1.18
+  - pandas=3.0
+  - pyarrow=25.0
+  - xarray=2026.9
+  - zarr=3.4
+  - dask=2026.8
+  - gcsfs=2026.10
+  - scikit-learn=1.9
+  - matplotlib=3.11

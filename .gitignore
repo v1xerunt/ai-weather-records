@@ -1,0 +1,9 @@
+data/
+data025/
+output/
+gc_params/
+__pycache__/
+*.pyc
+*.tar
+*.tar.gz
+.DS_Store
