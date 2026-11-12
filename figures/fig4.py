@@ -19,7 +19,7 @@ ax.set_xlim(-2.5, 7); ax.set_xlabel('Standardized value of 2020 heat records'); 
 ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f'{v/1000:.0f}k' if v else '0'))
 ax.text(0.9, 15500, 'network units\n(global\nnormalization)', fontsize=5.5, color=AI, ha='right')
 ax.text(3.3, 9000, 'local units\n(cell and\nseason)', fontsize=5.5, color=INK2, ha='left')
-ax.set_title('Local records are familiar to the network', fontsize=7); label(ax, 'a')
+ax.set_title('Records in local and network units', fontsize=7); label(ax, 'a')
 
 # b, c input-conditioned error
 def curve(name, L, ri, si, w=0.25, lo=-2.5, hi=1.5):
@@ -62,7 +62,7 @@ ax.set_ylabel('Forecast warming from two\nextra training years (K)', labelpad=2)
 ax.legend(loc='upper left')
 ax.text(1.0, 0.24, 'records behave like\nother warm days', ha='center', fontsize=6, color=INK2)
 ax.set_ylim(-0.03, 0.62); ax.text(2.0, 0.535, 'pull towards the\ntraining climate', ha='center', fontsize=6, color=INK2)
-ax.set_title('Same network, two more years of training data', fontsize=7); label(ax, 'd', x=-0.085)
+ax.set_title('Effect of two more training years', fontsize=7); label(ax, 'd', x=-0.085)
 
 # e Pacific Northwest 2021, Pangu (trained to 2017)
 ax = fig.add_subplot(G[1, 2]); grid(ax)

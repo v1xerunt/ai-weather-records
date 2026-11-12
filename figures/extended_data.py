@@ -57,7 +57,7 @@ for k, (m, col, lab) in enumerate([('graphcast', AI, 'GraphCast (AI)'), ('pangu'
     print(m, np.round(mo, 2), np.round(mb, 2))
 ax.set_xticks(range(3)); ax.set_xticklabels([h[1] for h in H]); ax.set_xlabel('Period used to define the record')
 ax.set_ylabel('Mean error on 2020 heat records, 24 h (K)'); ax.legend(loc='center left', fontsize=5.5)
-ax.set_title('Shorter history, smaller shortfall', fontsize=7); label(ax, 'a', x=-0.25)
+ax.set_title('Records from shorter histories', fontsize=7); label(ax, 'a', x=-0.25)
 ax = axs[1]; grid(ax, 'y')
 for k, (base, col, lab) in enumerate([('gencast', ENS, 'GenCast (AI)'), ('ens', PHYS2, 'IFS ensemble (physics)')]):
     dm = np.load(f'{grid15.D}/events/2020_t2m_max_era5_{base}mean.npz'); L = dm['leads']
@@ -70,5 +70,5 @@ for k, (base, col, lab) in enumerate([('gencast', ENS, 'GenCast (AI)'), ('ens', 
     for j in range(3):
         ax.plot(L / 24, curve_(np.load(f'{grid15.D}/events/2020_t2m_max_era5_{base}10:{j}.npz')), color=col, lw=0.6, ls=(0, (2, 1.2)), label=f'{lab} single members' if j == 0 else None)
 ax.set_xlabel('Lead time (days)'); ax.set_ylabel('Mean error on 2020 heat records (K)'); ax.legend(loc='lower left', fontsize=5.5)
-ax.set_title('Members fall as short as the mean', fontsize=7); label(ax, 'b', x=-0.25)
+ax.set_title('Ensemble members and means', fontsize=7); label(ax, 'b', x=-0.25)
 save(fig, 'ed_history_members')

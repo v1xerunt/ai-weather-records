@@ -27,7 +27,7 @@ ax.text(-3.4, 3.1, 'perfect agreement', fontsize=6, color=INK2)
 ax.text(-3.4, 2.75, 'best forecast given\nwhat is predictable', fontsize=6, color=AI, va='top')
 ax.set_xlim(-3.6, 4.6); ax.set_ylim(-3.6, 3.6)
 ax.set_xlabel('Observed anomaly (s.d.)'); ax.set_ylabel('Forecast anomaly (s.d.)')
-ax.set_title('Selecting on the outcome', fontsize=7); label(ax, 'a')
+ax.set_title('Selection on the outcome', fontsize=7); label(ax, 'a')
 
 # b  record-exceedance coordinates, 0.25 deg, 48 h, ERA5
 ax = fig.add_subplot(gs[0, 1])
@@ -47,7 +47,7 @@ ax.axhline(0, color=INK2, lw=0.5)
 h = [Line2D([], [], color=AI, marker='o', ms=3, lw=0, label='GraphCast (AI)'), Line2D([], [], color=PHYS, marker='o', ms=3, lw=0, label='HRES (physics)'),
      Line2D([], [], color=INK2, lw=1, label='expected from ordinary days')]
 ax.legend(handles=h, loc='lower left', handlelength=1.5)
-ax.set_title('The apparent cap, 2 days ahead', fontsize=7); label(ax, 'b')
+ax.set_title('Error by record margin, 2 days ahead', fontsize=7); label(ax, 'b')
 
 # c  collapse, 1.5 deg, all systems
 ax = fig.add_subplot(gs[0, 2])
@@ -76,7 +76,7 @@ ax.text(-8.2, -3.9, f'$R^2$ = {r2:.2f}\n$n$ = {len(X):,}', fontsize=6, va='top',
 h = [Line2D([], [], ls='', marker='o', ms=3, color=c, label=g) for g, _, c in GROUPS] + \
     [Line2D([], [], ls='', marker=m, ms=3, color=INK2, mfc='none', mew=0.6, label=l) for m, l in [('o', 'heat'), ('s', 'cold'), ('^', 'wind')]]
 ax.legend(handles=h, loc='upper left', ncol=1, fontsize=5.5, handletextpad=0.2, labelspacing=0.25, borderaxespad=0.2)
-ax.set_title('One law for every system', fontsize=7); label(ax, 'c')
+ax.set_title('Observed and expected error, all systems', fontsize=7); label(ax, 'c')
 print('collapse R2', r2, len(X), 'median abs resid', np.median(np.abs(Y - X)))
 
 # d  predictability limit vs lead
@@ -94,7 +94,7 @@ ax.set_xlabel('Lead time (days)'); ax.set_ylabel('Mean forecast error on\n2020 h
 ax.set_xlim(0.4, 10.1); ax.set_xticks(range(1, 11)); ax.axhline(0, color=INK2, lw=0.5)
 ax.text(5.05, -1.25, 'GenCast world', fontsize=5.5, color=PERF, ha='left'); ax.text(3.0, -1.95, 'IFS ensemble world', fontsize=5.5, color=PERF, ha='right')
 ax.legend(loc='lower left', ncol=2)
-ax.set_title('Most of the shortfall would remain for a perfect forecast', fontsize=7); label(ax, 'd', x=-0.075)
+ax.set_title('Error relative to a perfect forecast', fontsize=7); label(ax, 'd', x=-0.075)
 
 # e  ratio to limit
 ax = fig.add_subplot(gs[1, 2])
@@ -105,5 +105,5 @@ for lab, (v, col) in rat.items():
 ax.axhline(1, color=PERF, lw=0.8); ax.text(9.9, 0.93, 'perfect forecast', ha='right', va='top', fontsize=5.5, color=PERF)
 ax.set_ylim(0.75, 3.2); ax.set_xlim(0.3, 10.2); ax.set_xticks([1, 3, 5, 7, 10])
 ax.set_xlabel('Lead time (days)'); ax.set_ylabel('Shortfall relative to\nperfect forecast (GenCast world)')
-ax.legend(loc='upper right'); ax.set_title('Distance from the limit', fontsize=7); label(ax, 'e')
+ax.legend(loc='upper right'); ax.set_title('Ratio to the perfect forecast', fontsize=7); label(ax, 'e')
 save(fig, 'fig2')

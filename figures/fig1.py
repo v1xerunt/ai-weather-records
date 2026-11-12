@@ -55,21 +55,21 @@ rys = [yy + 0.107 for yy, *_ in src]
 ax.plot([0.558, 0.605], [ym, ym], color=LC, lw=0.7)
 ax.plot([0.605, 0.605], [min(rys), max(rys)], color=LC, lw=0.7)
 for yy in rys: arrow(ax, 0.605, yy, 0.655, yy)
-ax.set_title('Separating the sources of error on records', fontsize=7, x=0.05)
+ax.set_title('Study design', fontsize=7, x=0.05)
 
 # b error budget
 ax = fig.add_subplot(G[0, 1]); label(ax, 'b', x=-0.3, y=1.0)
 rows = [('GraphCast (AI)', -0.53, -2.14, AI), ('GenCast mean (AI)', -0.48, -2.15, ENS), ('HRES (physics)', -1.29, -2.38, PHYS),
-        ('HRES, own analysis', -0.12, -1.67, PHYS)]
+        ('HRES, scored on own analysis', -0.12, -1.67, PHYS)]
 lim = {12: -0.42, 120: -1.75}
 for j, (L, k, off) in enumerate([(12, 1, 0), (120, 2, 5.4)]):
     for i, (lab, v12, v120, c) in enumerate(rows):
         v = v12 if L == 12 else v120; y = off + i
-        u = max(v, lim[L]) if lab != 'HRES, own analysis' else v
-        ax.barh(y, lim[L] if lab != 'HRES, own analysis' else v, color='#d2d2d2', height=0.62, lw=0)
-        if lab != 'HRES, own analysis' and v < lim[L]:
+        u = max(v, lim[L]) if lab != 'HRES, scored on own analysis' else v
+        ax.barh(y, lim[L] if lab != 'HRES, scored on own analysis' else v, color='#d2d2d2', height=0.62, lw=0)
+        if lab != 'HRES, scored on own analysis' and v < lim[L]:
             ax.barh(y, v - lim[L], left=lim[L], color=c, height=0.62, lw=0)
-        if lab == 'HRES, own analysis':
+        if lab == 'HRES, scored on own analysis':
             ax.barh(y, v, color='white', edgecolor=c, hatch='//////', height=0.62, lw=0.6)
         ax.text(v - 0.06, y, f'{v:.2f}', ha='right', va='center', fontsize=5.6)
     ax.plot([lim[L]] * 2, [off - 0.5, off + 3.5], color=INK, lw=0.8, ls=(0, (2, 1.2)))
@@ -80,7 +80,7 @@ ax.invert_yaxis(); ax.set_xlim(-3.4, 0.05); ax.axvline(0, color=INK2, lw=0.5)
 ax.set_xlabel('Mean error on 2020 heat records (K)')
 ax.text(-0.44, -0.75, 'perfect forecast', fontsize=5.5, ha='center', va='center', color=INK)
 pass
-ax.set_title('Most of the error is unavoidable', fontsize=7)
+ax.set_title('Error relative to a perfect forecast', fontsize=7)
 
 # c findings table
 ax = fig.add_subplot(G[1, :]); ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis('off'); label(ax, 'c', x=0.0, y=1.0)
@@ -89,14 +89,14 @@ hdr = ['Source', 'Finding', 'Evidence', 'Number']
 yt = 0.955
 for x, h in zip(cols, hdr): ax.text(x + 0.005, yt, h, fontsize=6.5, fontweight='bold', va='center', ha='left' if h != 'Number' else 'left')
 ax.plot([0.015, 0.985], [yt - 0.035, yt - 0.035], color=INK, lw=0.7)
-R = [(C_PRED, 'Predictability', 'Record errors are set on ordinary days', 'one parameter-free relation fits 7 systems, 3 variables,\n2 truths and all lead times', '$R^2$ = 0.93', 'Fig. 2'),
-     (C_PRED, '', 'A perfect forecast falls almost as short', 'share of the AI shortfall that a perfect forecast\nin a model world also shows', '75–90%', 'Fig. 2'),
-     (C_VER, 'Verification', 'The truth decides the ranking', 'HRES gain from switching ERA5 for its own analysis\n(GraphCast ahead by 0.74 K on the same truth)', '+1.28 K', 'Fig. 3'),
-     (C_VER, '', 'Independent stations favour AI', 'record shortfall 12 h ahead, 2020 heat\nGraphCast vs HRES at 2,787 stations', '2.10 vs 2.41 K', 'Fig. 3'),
+R = [(C_PRED, 'Predictability', 'Record errors are set on ordinary days', 'one relationship from ordinary days fits 7 systems,\n3 variables, 2 truths and all lead times', '$R^2$ = 0.93', 'Fig. 2'),
+     (C_PRED, '', 'A perfect forecast shows most of the error', 'share of the AI shortfall that a perfect forecast\nin a model world also shows', '75–90%', 'Fig. 2'),
+     (C_VER, 'Verification', 'Verification data reverse the ranking', 'HRES gain from switching ERA5 for its own analysis\n(GraphCast ahead by 0.74 K on the same truth)', '+1.28 K', 'Fig. 3'),
+     (C_VER, '', 'AI models do as well or better at stations', 'record shortfall 12 h ahead, 2020 heat\nGraphCast vs HRES at 2,787 stations', '2.10 vs 2.41 K', 'Fig. 3'),
      (C_CEIL, 'Training ceiling?', 'No break beyond the record', 'error for inputs already above the local record,\n12 h ahead', '< 0.2 K', 'Fig. 4'),
-     (C_CEIL, '', 'More training years, no record-specific gain', 'same network trained two years longer,\nrecords minus other warm days at 48 h', '0.00 K', 'Fig. 4'),
-     (C_MOD, 'Model itself', 'Damped amplitude, not missing knowledge', 'extra smoothing of GraphCast relative to HRES,\nrecoverable by recalibration', '0.08–0.23 K', 'Fig. 5'),
-     (C_MOD, '', 'Averaged wind vectors lose speed', 'GenCast mean-vector speed, shortfall beyond\nexpectation one day ahead', '0.35 m s$^{-1}$', 'Fig. 5')]
+     (C_CEIL, '', 'Extra training years do not favour records', 'same network trained two years longer,\nrecords minus other warm days at 48 h', '0.00 K', 'Fig. 4'),
+     (C_MOD, 'Model itself', 'Remaining AI deficit is damped amplitude', 'extra smoothing of GraphCast relative to HRES,\nrecoverable by recalibration', '0.08–0.23 K', 'Fig. 5'),
+     (C_MOD, '', 'Averaging wind vectors reduces speed', 'GenCast mean-vector speed, shortfall beyond\nexpectation one day ahead', '0.35 m s$^{-1}$', 'Fig. 5')]
 h = (yt - 0.06) / len(R)
 for p in range(len(R) // 2):
     c = R[2 * p][0]; ytop = yt - 0.05 - 2 * p * h; ybot = ytop - 2 * h

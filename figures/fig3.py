@@ -54,7 +54,7 @@ ax.text(2.0, -0.5, 'switching\nthe truth\n+1.28 K', ha='center', va='top', fonts
 ax.axhline(0, color=INK2, lw=0.5)
 ax.set_xticks(range(3)); ax.set_xticklabels([b[0] for b in bars], fontsize=5.5); ax.tick_params(axis='x', length=0)
 ax.set_ylim(-2.05, 0.1); ax.set_xlim(-0.55, 2.4); ax.set_ylabel('Mean error on heat records (K)')
-ax.set_title('Anatomy of a 0.54 K gap', fontsize=7); label(ax, 'b', x=-0.42, y=1.08)
+ax.set_title('Decomposition of the 0.54 K gap', fontsize=7); label(ax, 'b', x=-0.42, y=1.08)
 
 # c home-analysis gain vs station density
 ax = fig.add_subplot(gs[4]); grid(ax, 'y')
@@ -64,6 +64,6 @@ ax.plot(range(5), g12, color=PHYS, marker='o', ms=3.5, mec='white', mew=0.5, lab
 ax.plot(range(5), g120, color=PHYS, marker='o', ms=3.5, mec='white', mew=0.5, ls=(0, (3, 1.5)), alpha=.6, label='120 h')
 ax.set_xticks(range(5)); ax.set_xticklabels(cats); ax.set_ylim(0, 0.07)
 ax.set_xlabel('Stations within 300 km'); ax.set_ylabel('Correlation gain of HRES when\nverified on its own analysis')
-ax.legend(loc='upper right'); ax.set_title('Largest with few stations', fontsize=7); label(ax, 'c', x=-0.4, y=1.08)
+ax.legend(loc='upper right'); ax.set_title('Gain by station density', fontsize=7); label(ax, 'c', x=-0.4, y=1.08)
 save(fig, 'fig3')
 for m, *_ in M: print(m, [round(float(vals[(m, t)]), 2) for t in ('era5', 'hres_t0', 'st')])
