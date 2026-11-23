@@ -44,9 +44,9 @@ for k, (m, col, lab) in enumerate([('graphcast', AI, 'GraphCast'), ('hres', PHYS
 ax.set_xticks(xc); ax.set_xticklabels(['0–0.5', '0.5–1', '1–2', '2–3', '>3'])
 ax.set_xlabel('Amount by which the record is broken (K)'); ax.set_ylabel('Mean forecast error on records (K)')
 ax.axhline(0, color=INK2, lw=0.5)
-h = [Line2D([], [], color=AI, marker='o', ms=3, lw=0, label='GraphCast (AI)'), Line2D([], [], color=PHYS, marker='o', ms=3, lw=0, label='HRES (physics)'),
-     Line2D([], [], color=INK2, lw=1, label='expected from ordinary days')]
-ax.legend(handles=h, loc='lower left', handlelength=1.5)
+h = [Line2D([], [], color=AI, marker='o', ms=3, lw=0, label='GraphCast (AI), observed'), Line2D([], [], color=AI, lw=1, label='GraphCast (AI), expected'),
+     Line2D([], [], color=PHYS, marker='o', ms=3, lw=0, label='HRES (physics), observed'), Line2D([], [], color=PHYS, lw=1, label='HRES (physics), expected')]
+ax.set_ylim(-3.55, 0.15); ax.legend(handles=h, loc='lower left', handlelength=1.5, fontsize=5.5, labelspacing=0.25, borderaxespad=0.2)
 ax.set_title('Error by record margin, 2 days ahead', fontsize=7); label(ax, 'b')
 
 # c  collapse, 1.5 deg, all systems

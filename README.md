@@ -1,4 +1,4 @@
-# AI weather models forecast record extremes nearly as well as predictability allows
+# Training data do not cap AI weather forecasts of record extremes
 
 Data: [10.5281/zenodo.24045931](https://doi.org/10.5281/zenodo.24045931)
 
@@ -55,6 +55,7 @@ bash scripts/build_events.sh
 |---|---|
 | Expected error from ordinary days, Fig. 2b,c | `src/events/record_events_15deg.py`, `src/events/record_events_025deg.py`, `src/events/summarize_record_errors.py` |
 | Perfect-model forecasts, Fig. 2d,e | `src/analysis/perfect_model.py` |
+| Ensemble spread-skill ratio (Methods) | `src/analysis/spread_skill.py` |
 | Offset and regression terms of the expected error | `src/analysis/offset_regression_split.py` |
 | Gain from verifying on the model's own analysis, Fig. 3c | `src/analysis/own_analysis_gain_vs_station_density.py` |
 | Weather-station records, Fig. 3a, Extended Data Table 2 | `src/events/station_records.py`, `src/analysis/station_stratify.py` |
